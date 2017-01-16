@@ -1,4 +1,4 @@
-//package e4;
+package e4;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
