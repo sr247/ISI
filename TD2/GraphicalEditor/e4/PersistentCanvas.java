@@ -1,4 +1,4 @@
-//package e4;
+package e4;
 
 import java.awt.Canvas;
 import java.awt.Component;
