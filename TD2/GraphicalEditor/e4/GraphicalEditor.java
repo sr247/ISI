@@ -1,4 +1,4 @@
-//package e4;
+package e4;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
