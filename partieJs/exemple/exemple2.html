@@ -1,0 +1,58 @@
+<!DOCTYPE html> 
+<html> 
+	<head>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
+	</head>
+	<body> 
+		
+		<!--
+		<p>Changing web page 
+		colors with different delays.</p> 
+		<script>	 
+		// JS script 
+		// will be called as the page loads 
+		
+			setTimeout("document.bgColor='white'", 1000)  
+			setTimeout("document.bgColor='lightpink'", 1500)  
+			setTimeout("document.bgColor = 'pink'", 2000)  
+			setTimeout("document.bgColor = 'deeppink'", 2500)  
+			setTimeout("document.bgColor = 'red'", 3000)  
+			setTimeout("document.bgColor = 'tomato'", 3500)  
+			setTimeout("document.bgColor = 'darkred'", 4000) 
+			
+		/*	
+		for( i = 0; i < 255; i++){
+			setTimeout("document.bgColor='white'", 1000)  
+		}*/
+		
+		</script>		
+	
+		<canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;"> </canvas> 
+		<script>
+			// JS script will be called when page loads, look for ID myCanvas, and draw a line
+			var c = document.getElementById("myCanvas"); 
+			var ctx = c.getContext("2d"); 
+			ctx.moveTo(0,0); 
+			ctx.lineTo(200,100); 
+			ctx.stroke(); 
+		</script> 
+		
+		-->
+		<p>Click the button to loop from 1 to 6, to make HTML headings.</p> 
+		<button onclick="myFunction()">Try it</button>   
+		<!-- adding a callback function to widget button -->
+		<div id="demo"></div> 
+		<script>
+			// JS script provides the implementation of the callback function (equivalent to listener functions)
+			function myFunction(){ 
+				var x="", i; 
+				for (i=1; i<=6; i++){ 
+					x=x + "<h" + i + ">Heading " + i + "</h" + i + ">"; 
+				} 
+				document.getElementById("demo").innerHTML=x;
+			} 
+		</script> 
+		
+	</body> 
+</html>

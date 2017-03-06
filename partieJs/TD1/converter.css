@@ -1,0 +1,26 @@
+body {
+	margin: 0;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	background-color: #eaeaea;
+}
+
+div#converter {
+	background-color: #cacaca;
+	padding: 5px;
+	cursor: default;
+	position: absolute;
+	z-index: 100;
+	/* Complete… */
+	
+	
+}
+
+#converter label {
+	/* Style… */
+	text-decoration:bold;
+}
+
+#converter input {
+	/* Style… */
+	text-decoration:bold;
+}

@@ -1,0 +1,38 @@
+
+
+
+p{
+	font-family:Arial; 
+	color:blue
+} 
+
+
+a{
+	color:green
+}
+
+
+nav ul {
+  list-style-type:round;
+  margin:5;
+  padding:5;
+}
+
+nav ul ul { display: none;
+list-style-type:none; }
+nav ul li:hover > ul { display: block;}
+
+h1 {
+	font-family:Georgia;
+	color:red;
+}
+h1 {
+	animation-duration: 3s;
+	animation-name: slidein;
+	animation-iteration-count: infinite;
+}
+
+@keyframes slidein { 
+  from { margin-left: 100%; width: 300%} 
+  to   { margin-left: 0%; width: 100%; }
+}

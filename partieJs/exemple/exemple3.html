@@ -1,0 +1,26 @@
+<!DOCTYPE html> 
+<html> 
+	<body>
+		<canvas id="canvas" width="300" height="300"></canvas> 
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
+		<script> 
+			//get a reference to the canvas 
+			var ctx = $('#canvas')[0].getContext("2d"); 
+			var x = y = 50; 
+			//draw a rect at x, y 
+			ctx.rect(x,y,50,50); 
+			ctx.fillStyle = 'black'; 
+			ctx.fill(); 
+			$(document).mousemove(onMouseMove); 
+			// attach an callback function to entire web page 
+			function onMouseMove(evt) { 
+			if (evt.pageX > x && evt.pageX < x+50 && evt.pageY > y && evt.pageY < y+50) { 
+				ctx.fillStyle = 'red'; 
+			}else{ 
+				ctx.fillStyle = 'black'; 
+			} 
+			ctx.fill();   
+			} 
+		</script> 
+	</body> 
+</html>

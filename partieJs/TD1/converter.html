@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/ui/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+	<title>Converter</title>
+	<link rel="stylesheet" href="converter.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+	<style type="text/css" media="screen">
+		
+	</style>
+	<script type="text/javascript" charset="utf-8">
+		$(function () {
+			
+			// Make converter draggable
+			$('#converter').draggable();
+			
+			// Updates the other field when typing
+			$(/* Put right selector */).keyup(function (event) {
+				// Complete...
+			});
+			
+		});
+	</script>
+</head>
+<body>
+	<div id="converter">
+		<div class="left">
+			<label for="celsius">Celsius</label>
+			<input type="text" name="celsius" value="" id="celsius" />			
+		</div>
+		<div class="right">
+			<label for="fahrenheit">Fahrenheit</label>
+			<input type="text" name="fahrenheit" value="" id="fahrenheit" />
+		</div>
+	</div>
+</body>
+</html>
