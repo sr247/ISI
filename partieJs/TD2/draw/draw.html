@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/fabric.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/ui/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.simple-color.min.js" type="text/javascript" charset="utf-8"></script>
+	<title>Draw</title>
+	<link rel="stylesheet" href="draw.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+	<script type="text/javascript" charset="utf-8">
+		$(function () {
+			
+			// Make toolbar draggable
+			$('#toolbar, #styler').draggable();
+			
+			// Canvas
+			var canvas = new fabric.Canvas($('canvas')[0]);
+			
+			// Global style object config
+			STYLE = {
+				fill: '#b3e280',
+				stroke: 'black',
+				strokeWidth: 1,
+			};
+			ACTIVE_TOOL = '';
+			
+			// Mixins to provide more functions to the canvas object
+			canvas.enableSelection = function () {
+				this.selection = true;
+				var objects = this.getObjects();
+				for (var i = 0; i < objects.length; i++) {
+					objects[i].selectable = true;
+				}
+			};
+			canvas.disableSelection = function () {
+				this.selection = false;
+				var objects = this.getObjects();
+				for (var i = 0; i < objects.length; i++) {
+					objects[i].selectable = false;
+				}
+			};
+			canvas.duplicateObject = function (object, shift) {
+				var copy = object.clone();
+				if (shift === undefined) {
+					var shift = 10;
+				}
+				copy.set({
+					left: object.left + shift,
+					top: object.top + shift,
+				});
+				return copy;
+			};
+			
+			// Changes the feedback of selection highlights and handles
+			canvas.selectionColor = 'rgba(255, 165, 0, 0.3)';
+			canvas.selectionBorderColor = 'orange';
+			fabric.Object.prototype.cornerSize = 7;
+			fabric.Object.prototype.transparentCorners = false;
+			fabric.Object.prototype.cornerColor = 'orange';
+			fabric.Object.prototype.borderColor = 'orange';
+			
+			
+			
+			// ========================
+			// = Handling the toolbar =
+			// ========================
+			
+			// Changes active tool when a click occurs on their icon
+			$('#toolbar a').click(function (event) {
+				$('#toolbar .active').removeClass('active');
+				var tool = $(this);
+				tool.addClass('active');
+				
+				ACTIVE_TOOL = tool.text().trim();
+				
+				if (ACTIVE_TOOL == 'Path') {
+					canvas.isDrawingMode = true;
+					canvas.freeDrawingLineWidth = STYLE.strokeWidth;
+					canvas.freeDrawingColor = STYLE.stroke;
+					canvas.disableSelection();
+				} else {
+					canvas.isDrawingMode = false;
+					if (ACTIVE_TOOL == 'Selection') {
+						canvas.enableSelection();
+					} else {
+						canvas.disableSelection();
+					}
+				}
+				// Deactivate selection when input tools are added
+			});
+			
+			
+			// ==============================================
+			// = Handling deletion or duplication of shapes =
+			// ==============================================
+			
+			$('#toolbar button:contains(Delete)').click(function (event) {
+				// Removes a shape
+				var activeObject = canvas.getActiveObject(),
+					activeGroup = canvas.getActiveGroup();
+				if (activeGroup) {
+					var objectsInGroup = activeGroup.getObjects();
+					canvas.discardActiveGroup();
+					for (var i = 0; i < objectsInGroup.length; i++) {
+						canvas.remove(objectsInGroup[i]);
+					}
+				}
+				else if (activeObject) {
+					canvas.remove(activeObject);
+				}
+				canvas.fire('selection:cleared');
+			});
+			
+			
+			// ===================================
+			// = Handling the creation of shapes =
+			// ===================================
+			
+			creating = false;
+			shape = null;
+			pointerLocation = {x:0, y:0};
+			newPointerLocation = {x:0, y:0};
+			
+			$('canvas')
+				.mousedown(function (event) {
+					if (canvas.selection || canvas.isDrawingMode) {
+						return;
+					}
+					creating = true;
+					pointerLocation.x = event.pageX;
+					pointerLocation.y = event.pageY;
+					switch (ACTIVE_TOOL) {
+						case 'Rectangle':
+							// Complete...
+							shape = new fabric.Rect({left: pointerLocation.x, top: pointerLocation.y, fill: 'red', width: 0, height: 0, opacity: 0.7 });
+							canvas.add(shape);
+							break;
+						case 'Ellipse':
+							// Complete...
+							shape = new fabric.Ellipse({left: pointerLocation.x, top: pointerLocation.y, fill: 'red', rx: 0, ry: 0, opacity: 0.7, strokeWidth: 5, stroke: 'red' });
+							canvas.add(shape);
+							break;
+						case 'Line':
+							// Complete...
+							shape = new fabric.Line([pointerLocation.x, pointerLocation.y, pointerLocation.x, pointerLocation.y], 
+							{fill: 'red', 
+							stroke: 'red',
+							strokeWidth: 2,
+							left: pointerLocation.x, 
+							top: pointerLocation.y,});
+							canvas.add(shape);
+							break;
+					}
+					// Complete...
+				})
+				.mousemove(function (event) {
+					if (creating) {
+						switch (ACTIVE_TOOL) {
+							case 'Rectangle':
+								// Complete...
+								shape.left = pointerLocation.x - (pointerLocation.x - event.pageX)/2;
+								shape.top = pointerLocation.y - (pointerLocation.y - event.pageY)/2;
+								shape.set('width', pointerLocation.x - event.pageX);
+								shape.set('height', pointerLocation.y - event.pageY);
+								break;
+							case 'Ellipse':
+								// Complete...
+								// shape.set('rx', Math.sqrt(Math.pow(pointerLocation.x - event.pageX, 2) + Math.pow(pointerLocation.y - event.pageY, 2)));
+								shape.set('width', pointerLocation.x - event.pageX);
+								shape.set('height', pointerLocation.y - event.pageY);
+								shape.set('rx', Math.abs(pointerLocation.x - event.pageX));
+								shape.set('ry', Math.abs(pointerLocation.y - event.pageY));
+								break;
+							case 'Line':
+								// Complete...
+								shape.set('x2', event.pageX);
+								shape.set('y2', event.pageY);	
+								break;
+						}
+						canvas.renderAll();
+					}
+				})
+				.mouseup(function (event) {
+					if (creating && shape) {
+						creating = false;
+						shape.set('opacity', 1.0 );
+						// Because the toolkit has a weird bug, we need to remove the shape and add its clone
+						shape.remove();
+						canvas.add(shape = shape.clone());
+						shape.selectable = false;
+						shape = null;
+					}
+				})
+			;
+			
+			// Select tool based on url hash value
+			var tool = window.location.hash.substring(1);
+			// By default, the selection tool is active
+			if (tool.length == 0) tool = 'selection';
+			// Simulate a click on the selected tool
+			$('#toolbar a.'+tool).click();
+			
+			
+			// ===============================
+			// = Handling keyboard shortcuts =
+			// ===============================
+			
+			// Key presses
+			$('html').keyup(function(event) {
+				switch (event.keyCode) {
+				case 46:
+					// 46 is the suppr key
+					// Removes a shape
+					$('#toolbar button:contains(Delete)').click();
+					break;
+				case 68:
+					// 68 is the 'd' key
+					// Duplicates a shape
+					// Complete...
+					break;
+				case 37:
+					// Left arrow key
+					// Complete...
+					break;
+				case 38:
+					// Up arrow key
+					// Complete...
+					break;
+				case 39:
+					// Right arrow key
+					// Complete...
+					break;
+				case 40:
+					// Down arrow key
+					// Complete...
+					break;
+				default:
+					// console.log(event.keyCode);
+				}
+			});
+			
+			
+			// =============================
+			// = Handling style attribtues =
+			// =============================
+			
+			var applyStyleToSelectedObjects = function (styles) {
+				var activeObject = canvas.getActiveObject(),
+					activeGroup = canvas.getActiveGroup();
+				if (activeGroup) {
+					var objectsInGroup = activeGroup.getObjects(), styleName;
+					for (styleName in styles) {
+						for (var i = 0; i < objectsInGroup.length; i++) {
+							objectsInGroup[i][styleName] = styles[styleName];
+						}
+					}
+				} else if (activeObject) {
+					for (styleName in styles) {
+						activeObject[styleName] = styles[styleName];
+					}
+				}
+				canvas.renderAll();
+			}
+			
+			// This uses the jQuery Simple Color plugin. See: https://github.com/recurser/jquery-simple-color
+			$('#styler .fill-color').simpleColor({
+				boxWidth: 80,
+				boxHeight: 10,
+				livePreview: true,
+				onSelect: function(hex, element) {
+					// Complete...
+				}
+			});
+			
+			$('#styler .stroke-color').simpleColor({
+				boxWidth: 80,
+				boxHeight: 10,
+				livePreview: true,
+				onSelect: function(hex, element) {
+					// Complete...
+				}
+			});
+			
+			$('#styler .stroke-width').change(function (event) {
+				// Complete...
+			});
+			
+			// See this page to find the proper event: http://fabricjs.com/events/
+			canvas.observe('proper event', function (event) {
+				// Complete...
+			});
+			
+		});
+	</script>
+</head>
+<body>
+	<div id="toolbar" class="palette">
+		<p>Toolbar</p>
+		<a href="#selection" class="selection" title="Selection">Selection</a>
+		<a href="#rectangle" class="rectangle" title="Rectangle">Rectangle</a>
+		<a href="#ellipse" class="ellipse" title="Ellipse">Ellipse</a>
+		<a href="#line" class="line" title="Line">Line</a>
+		<a href="#path" class="path" title="Path">Path</a>
+		<div class="buttons">
+			<button title="Delete">Delete</button>
+		</div>
+		<br clear="both"/>
+	</div>
+	<div id="styler" class="palette" style="display: none">
+		<p>Style</p>
+		<label>Fill color</label>
+		<input class="fill-color" value="#b3e280" />
+		<label>Stroke color</label>
+		<input class="stroke-color" value="#000000" />
+		<label>Stroke width</label>
+		<input type="number" class="stroke-width" value="1" />
+	</div>
+	<canvas width="2150" height="1200" id="canvas"></canvas>
+</body>
+</html>

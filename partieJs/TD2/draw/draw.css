@@ -1,0 +1,127 @@
+body {
+	margin: 0;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	background-color: #eaeaea;
+}
+
+/* @group Palette */
+
+div.palette {
+	background-color: rgba(202,202,202,0.7);
+	padding: 5px;
+	cursor: default;
+	position: absolute;
+	opacity: 1;
+	z-index: 100;
+}
+
+div.palette:hover {
+	opacity: 1;
+}
+
+div.palette p {
+	margin: 0 0 5px;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+/* @end */
+
+/* @group Toolbar */
+
+div#toolbar {
+	width: 360px;
+	top: 10px;
+	left: 410px;
+}
+
+#toolbar a {
+	margin: 0 5px 0 0;
+	text-indent: -1000px;
+	width: 50px;
+	height: 50px;
+	display: block;
+	float: left;
+	overflow: hidden;
+	cursor: default;
+	opacity: 0.5;
+}
+
+#toolbar a.active {
+	opacity: 1;
+}
+
+#toolbar .selection {
+	background-image: url(img/selection.png);
+}
+
+#toolbar .rectangle {
+	background-image: url(img/rectangle.png);
+}
+
+#toolbar .ellipse {
+	background-image: url(img/ellipse.png);
+}
+
+#toolbar .line {
+	background-image: url(img/line.png);
+}
+
+#toolbar .path {
+	background-image: url(img/path.png);
+	margin-right: 0;
+}
+
+#toolbar div.buttons {
+	float: left;
+	padding-left: 5px;
+}
+
+#toolbar .buttons button {
+	display: block;
+	width: 85px;
+	height: 23px;
+	margin-bottom: 5px;
+}
+
+#toolbar .buttons button:last-child {
+	margin-bottom: 0;
+}
+
+/* @end */
+
+canvas#canvas {
+	background-color: white;
+	border: 1px solid #cacaca;
+	border-top-style: none;
+	border-left-style: none;
+}
+
+/* @group Styler */
+
+div#styler {
+	top: 100px;
+	left: 688px;
+}
+
+#styler p {
+	margin: 0 0 5px;
+	text-align: center;
+	font-size: 12px;
+}
+
+#styler label {
+	text-align: left;
+	font-size: 12px;
+	display: block;
+	margin: 7px 0 0;
+}
+
+#styler input.stroke-width {
+	width: 76px;
+}
+
+
+
+/* @end */
